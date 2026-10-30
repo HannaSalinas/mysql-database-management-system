@@ -1,0 +1,2 @@
+# GitHub clasifica el SQL genérico como "datos" y no lo cuenta; esto lo incluye en las estadísticas de lenguaje
+*.sql linguist-detectable=true
