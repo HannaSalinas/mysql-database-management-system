@@ -18,88 +18,84 @@ Se desarrollaron:
 ## 📂 Estructura del proyecto
 
 ```bash
-proyectos_informaticos_mysql/
+mysql-database-management-system/
 ├─ README.md
-├─ documentacion.txt
+├─ TallerPractico_Hanna.txt     # documentación del taller
 ├─ sql/
 │  ├─ 00_create_database.sql   # creación de la base de datos
-│  ├─ 01_schema.sql            # definición de tablas principales y de auditoría
+│  ├─ 01_schema.sql            # tablas de auditoría (copia_*)
 │  ├─ 02_seed.sql              # inserciones y pruebas
 │  └─ 03_queries.sql           # procedimientos, triggers y función
 └─ docs/
    └─ diagrama_logico.md       # descripción del modelo lógico
+```
 
+---
 
+## ⚠️ Requisito previo
+
+Los scripts **no crean** las tablas principales `docentes` y `proyectos`: el taller partía de una base de datos `proyectos_informaticos` que ya las tenía. Antes de ejecutar los pasos de abajo, esas dos tablas deben existir con un `id` autoincremental y las columnas que usan los procedimientos:
+
+- `docentes`: `numero_documento`, `nombres`, `titulo`, `anios_experiencia`, `direccion`, `tipo_docente`
+- `proyectos`: `nombre`, `descripcion`, `fecha_inicial`, `fecha_final`, `presupuesto`, `horas`
+
+---
 
 ## 🚀 Ejecución en MySQL
 
 Para ejecutar el proyecto en **MySQL** (Workbench, DBeaver o CLI):
 
-1. Crear la base de datos:  
+1. Crear la base de datos (o usar la existente):
    ```sql
    SOURCE sql/00_create_database.sql;
+   ```
 
-2. Crear las tablas principales y de auditoría:
+2. Crear las tablas de auditoría:
    ```sql
    SOURCE sql/01_schema.sql;
+   ```
 
-3.Cargar procedimientos, triggers y función:
+3. Cargar procedimientos, triggers y función:
    ```sql
    SOURCE sql/03_queries.sql;
+   ```
 
-4.Insertar y validar con datos de prueba:
+4. Insertar y validar con datos de prueba:
    ```sql
    SOURCE sql/02_seed.sql;
-
+   ```
 
 ---
 
-
 ## 🧩 Solución implementada
 
-Tablas de respaldo:
-```sql
-: copia_actualizados_docentes, copia_eliminados_docentes
+**Tablas de respaldo:**
+- `copia_actualizados_docentes`, `copia_eliminados_docentes`
+- `copia_actualizados_proyectos`, `copia_eliminados_proyectos`
 
-: copia_actualizados_proyectos, copia_eliminados_proyectos
+**Procedimientos almacenados:**
+- `insertar_docente`, `listar_docentes`, `actualizar_docente`, `eliminar_docente`
+- `insertar_proyecto`, `listar_proyectos`, `actualizar_proyecto`, `eliminar_proyecto`
 
-Procedimientos almacenados:
-```sql
-: insertar_docente, listar_docentes, actualizar_docente, eliminar_docente
+**Función definida por el usuario:**
+- `promedio_horas_proyectos()` → devuelve el promedio de horas registradas en los proyectos.
 
-: insertar_proyecto, listar_proyectos, actualizar_proyecto, eliminar_proyecto
+**Triggers:**
+- `trg_docentes_update`, `trg_docentes_delete`
+- `trg_proyectos_update`, `trg_proyectos_delete`
 
-Función definida por el usuario:
-```sql
-: promedio_horas_proyectos() → devuelve el promedio de horas registradas en los proyectos.
-
-
-
-
-## Triggers:
-```sql
-trg_docentes_update, trg_docentes_delete
-
-trg_proyectos_update, trg_proyectos_delete
-
-
-
+---
 
 ## 🧪 Pruebas realizadas
-```sql
-Inserción de docentes y proyectos con procedimientos.
 
-Listado completo de registros.
+- Inserción de docentes y proyectos con procedimientos.
+- Listado completo de registros.
+- Actualización y eliminación de datos para verificar los triggers.
+- Consulta de las tablas de respaldo (`copia_actualizados_*`, `copia_eliminados_*`).
+- Ejecución de la función `promedio_horas_proyectos()` para validar la operación matemática.
 
-Actualización y eliminación de datos para verificar los triggers.
+---
 
-Consulta de las tablas de respaldo (copia_actualizados_*, copia_eliminados_*).
+## 📄 Licencia
 
-Ejecución de la función promedio_horas_proyectos() para validar la operación matemática.
-
-
-
-## 🌐 Repositorio en GitHub
-
-El código completo puede consultarse en el siguiente enlace:
-👉 https://github.com/HannaSalinas/TallerPractico_Hanna_Contreras
+[MIT](LICENSE)
